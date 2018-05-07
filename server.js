@@ -24,7 +24,9 @@ app.use(cookieSession({
 
 // this lib provides express routes to handle the IndieAuth dance
 const MicropubAuth = require('./lib/micropub-auth')
-const micropubAuth = MicropubAuth({ successRedirect: '/search' });
+const micropubAuth = MicropubAuth({
+  successRedirect: '/search',
+  clientId: 'https://' + process.env.MAIN_URL });
 app.use(micropubAuth)
 
 // render html with http://handlebarsjs.com/
