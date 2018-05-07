@@ -26,7 +26,7 @@
       <p>
         Copy and Paste this code into your site
       </p>
-      <textarea readonly class="gif-copy-paste">{{#if ../inReplyTo}}Replying to <a class="u-in-reply-to" href="{{../inReplyTo}}>{{../inReplyTo}}</a>{{/if}}
+      <textarea readonly class="gif-copy-paste">{{#if ../inReplyTo}}↪ Replying to <a class="u-in-reply-to" href="{{../inReplyTo}}>{{../inReplyTo}}</a>{{/if}}
 <img class="u-photo" src="{{ images.original.url }}" alt="{{ title }}" /></textarea>
       <input id="copy-btn" type="button" onclick="document.querySelector('.gif-copy-paste').select(); document.execCommand('copy'); document.querySelector('#copy-btn').value='Copied!';" value="Copy!"/>
       <p>Or, sign in to post with <a href="https://indieweb.org/Micropub">Micropub</a></p>
