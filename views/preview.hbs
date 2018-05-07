@@ -1,0 +1,46 @@
+{{#with gif }}
+  <div class="results preview">
+    <a class="result-image" href="/preview/{{ id }}">
+      <figure style="margin: 1em 0 0 0">
+        <img src="{{ images.fixed_height.url }}" alt="" />
+        <figcaption>{{ title }}</figcaption>
+      </figure>
+    </a>
+  </div>
+    {{#if ../inReplyTo }}
+      <p>
+        Replying to: <code>{{ ../inReplyTo }}</code>
+      </p>
+      {{/if }}
+    {{#if ../user }}
+      <form method="POST" action="/post" style="background: none">
+        <p>
+          you are about to post this GIF to: <strong>{{ ../user.me }}</strong>
+        </p>
+
+        <input type="hidden" name="originalUrl" value="{{ images.original.url }}" />
+        {{#if ../inReplyTo }}<input type="hidden" name="inReplyTo" value="{{ ../inReplyTo }}" />{{/if}}
+        <input type="submit" value="Post this GIF" />
+      </form>
+    {{else }}
+      <p>
+        Copy and Paste this code into your site
+      </p>
+      <textarea readonly class="gif-copy-paste">{{#if ../inReplyTo}}Replying to <a class="u-in-reply-to" href="{{../inReplyTo}}>{{../inReplyTo}}</a>{{/if}}
+<img class="u-photo" src="{{ images.original.url }}" alt="{{ title }}" /></textarea>
+      <input id="copy-btn" type="button" onclick="document.querySelector('.gif-copy-paste').select(); document.execCommand('copy'); document.querySelector('#copy-btn').value='Copied!';" value="Copy!"/>
+      <p>Or, sign in to post with <a href="https://indieweb.org/Micropub">Micropub</a></p>
+      {{#> sign-in-form }}
+        <input type="hidden" name="returnTo" value="/preview/{{ id }}" />
+      {{/sign-in-form}}
+    {{/if }}
+  {{#if ../user }}
+    <details style="text-align: left">
+      <summary>Plumbing Details</summary>
+      <p>
+        We will <code>POST</code> an <a href="https://www.w3.org/TR/micropub/#form-encoded-and-multipart-requests"><code>x-www-form-urlencoded</code></a> request to your micropub endpoint at <code>{{ ../user.micropubEndpoint }}</code>:
+        <textarea readonly style="height: 6em; margin-top: 0.5em; width: 100%;">h=entry&amp;photo={{ images.original.url }}{{#if ../inReplyTo}}&in-reply-to={{ ../inReplyTo }}{{/if}}</textarea>
+      </p>
+    </details>
+  {{/if }}
+{{/with}}
