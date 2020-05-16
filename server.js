@@ -173,7 +173,7 @@ app.get('/preview/:id', requireGfycatToken, (request, response) => {
       return response.render('preview', context)
     })
     .catch((err) => console.log(err))
-    /* FIXME: handle 404 or other GIPHY API error */
+    /* FIXME: handle 404 or other API error */
 })
 
 /* Login needed here */
