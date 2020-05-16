@@ -1,8 +1,8 @@
 {{#with gif }}
   <div class="results preview">
-    <a class="result-image" href="/preview/{{ id }}">
+    <a class="result-image" href="/preview/{{ gfyId }}">
       <figure style="margin: 1em 0 0 0">
-        <img src="{{ images.fixed_height.url }}" alt="" />
+        <img src="{{ content_urls.max1mbGif.url }}" alt="" />
         <figcaption>{{ title }}</figcaption>
       </figure>
     </a>
@@ -14,24 +14,24 @@
       {{/if }}
     {{#if ../user }}
       <form method="POST" action="/post" style="background: none">
-        <p>
+        <label for="post-gif">
           you are about to post this GIF to: <strong>{{ ../user.me }}</strong>
-        </p>
+        </label>
 
-        <input type="hidden" name="originalUrl" value="{{ images.original.url }}" />
+        <input type="hidden" name="originalUrl" value="{{ content_urls.largeGif.url }}" />
         {{#if ../inReplyTo }}<input type="hidden" name="inReplyTo" value="{{ ../inReplyTo }}" />{{/if}}
-        <input type="submit" value="Post this GIF" />
+        <input id="post-gif" type="submit" value="Post this GIF" />
       </form>
     {{else }}
-      <p>
-        Copy and Paste this code into your site
-      </p>
-      <textarea readonly class="gif-copy-paste">{{#if ../inReplyTo}}↪ Replying to <a class="u-in-reply-to" href="{{../inReplyTo}}>{{../inReplyTo}}</a>{{/if}}
-<img class="u-photo" src="{{ images.original.url }}" alt="{{ title }}" /></textarea>
-      <input id="copy-btn" type="button" onclick="document.querySelector('.gif-copy-paste').select(); document.execCommand('copy'); document.querySelector('#copy-btn').value='Copied!';" value="Copy!"/>
+      <label for="gif-copy-paste">
+        Copy and Paste this code into your site.
+      </label>
+      <textarea id="gif-copy-paste" readonly class="gif-copy-paste">{{#if ../inReplyTo}}↪ Replying to <a class="u-in-reply-to" href="{{../inReplyTo}}>{{../inReplyTo}}</a>{{/if}}
+<img class="u-photo" src="{{ content_urls.largeGif.url }}" alt="{{ title }}" /></textarea>
+      <input id="copy-btn" type="button" onclick="document.querySelector('.gif-copy-paste').select(); document.execCommand('copy'); document.querySelector('#copy-btn').value='Copied!';" value="Click to Copy!"/>
       <p>Or, sign in to post with <a href="https://indieweb.org/Micropub">Micropub</a></p>
       {{#> sign-in-form }}
-        <input type="hidden" name="returnTo" value="/preview/{{ id }}" />
+        <input type="hidden" name="returnTo" value="/preview/{{ gfyId }}" />
       {{/sign-in-form}}
     {{/if }}
   {{#if ../user }}
@@ -39,7 +39,7 @@
       <summary>Plumbing Details</summary>
       <p>
         We will <code>POST</code> an <a href="https://www.w3.org/TR/micropub/#form-encoded-and-multipart-requests"><code>x-www-form-urlencoded</code></a> request to your micropub endpoint at <code>{{ ../user.micropubEndpoint }}</code>:
-        <textarea readonly style="height: 6em; margin-top: 0.5em; width: 100%;">h=entry&amp;photo={{ images.original.url }}{{#if ../inReplyTo}}&in-reply-to={{ ../inReplyTo }}{{/if}}</textarea>
+        <textarea readonly style="height: 6em; margin-top: 0.5em; width: 100%;">h=entry&amp;photo={{ content_urls.largeGif.url }}{{#if ../inReplyTo}}&in-reply-to={{ ../inReplyTo }}{{/if}}</textarea>
       </p>
     </details>
   {{/if }}

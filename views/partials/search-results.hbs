@@ -1,8 +1,8 @@
 {{#if results }}
 <div class="results">
   {{#each results }}
-    <a class="result-image" href="/preview/{{ id }}{{#if ../inReplyTo}}?in-reply-to={{ ../inReplyToQuery }}{{/if}}">
-      <img src="{{ images.preview_gif.url }}" alt="{{ title }}" />
+    <a class="result-image" href="/preview/{{ gfyId }}{{#if ../inReplyTo}}?in-reply-to={{ ../inReplyToQuery }}{{/if}}">
+      <img src="{{ content_urls.max1mbGif.url }}" alt="{{ title }}" />
     </a>
   {{/each }}
 </div>

@@ -6,9 +6,9 @@
   <details style="font-size: small; margin: 0 0 2em 0;">
     <summary>Is this a reply?</summary>
     <label for="in-reply-to">Reply To (a URL you are replying to)</label>
-    <input type="text" name="in-reply-to">
+    <input type="text" id="in-reply-to" name="in-reply-to">
   </details>
   {{/if}}
-  <input type="text" name="q" value="{{ q }}" placeholder="LOL, IDK, WTF, ..."/>
+  <input type="text" name="q" value="{{ q }}" placeholder="LOL, IDK, WTF, ..." aria-label="Search for GIFs."/>
   <input type="submit" value="Search for GIFs" />
 </form>

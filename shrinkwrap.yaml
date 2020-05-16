@@ -30,6 +30,7 @@ packages:
     dev: false
     engines:
       node: '>=0.4.0'
+    hasBin: true
     resolution:
       integrity: sha512-jd5MkIUlbbmb07nXH0DT3y7rDVtkzDi4XZOUVWAer8ajmF/DTSSbl5oNFyDOl/OXA33Bl79+ypHhl2pN20VeOQ==
   /ajv/5.5.2:
@@ -390,6 +391,7 @@ packages:
     dev: false
     engines:
       node: '>=4.0'
+    hasBin: true
     optionalDependencies:
       source-map: 0.6.1
     resolution:
@@ -398,6 +400,7 @@ packages:
     dev: false
     engines:
       node: '>=4'
+    hasBin: true
     resolution:
       integrity: sha1-/cpRzuYTOJXjyI1TXOSdv/YqRjM=
   /estraverse/4.2.0:
@@ -581,6 +584,7 @@ packages:
     dev: false
     engines:
       node: '>=0.4.7'
+    hasBin: true
     optionalDependencies:
       uglify-js: 2.8.29
     resolution:
@@ -868,6 +872,7 @@ packages:
       integrity: sha512-lc/aahn+t4/SWV/qcmumYjymLsWfN3ELhpmVuUFjgsORruuZPVSwAQryq+HHGvO/SI2KVX26bx+En+zhM8g8hQ==
   /mime/1.4.1:
     dev: false
+    hasBin: true
     resolution:
       integrity: sha512-KI1+qOZu5DcW6wayYHSzR/tXKCDC5Om4s1z2QJjDULzLcmf3DvzS7oluY4HCTrc+9FiKmWUgeNLg7W3uIQvxtQ==
   /minimatch/3.0.4:
@@ -1205,6 +1210,7 @@ packages:
     dev: false
     engines:
       node: '>=0.10.0'
+    hasBin: true
     optionalDependencies:
       bcrypt-pbkdf: 1.0.1
       ecc-jsbn: 0.1.1
@@ -1287,6 +1293,7 @@ packages:
     dev: false
     engines:
       node: '>=0.8.0'
+    hasBin: true
     optional: true
     optionalDependencies:
       uglify-to-browserify: 1.0.2
@@ -1311,6 +1318,7 @@ packages:
       integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
   /uuid/3.2.1:
     dev: false
+    hasBin: true
     resolution:
       integrity: sha512-jZnMwlb9Iku/O3smGWvZhauCf6cvvpKi4BKRiliS3cxnI+Gz9j5MEpTz2UFuXiKPJocb7gnsLHwiS05ige5BEA==
   /vary/1.1.2:
@@ -1411,7 +1419,7 @@ packages:
     resolution:
       integrity: sha1-9+572FfdfB0tOMDnTvvWgdFDH9E=
 registry: 'https://registry.npmjs.org/'
-shrinkwrapMinorVersion: 5
+shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   axios: ^0.18.0

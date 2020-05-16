@@ -1,6 +1,6 @@
 <form method="POST" action="/signin">
-  <label>Sign in with your domain:</label>
-  <input type="url" name="me" placeholder="https://yourdomain.com/" />
+  <label for="me">Sign in with your domain:</label>
+  <input type="url" id="me" name="me" placeholder="https://yourdomain.com/" />
   {{> @partial-block }}
   <button type="submit">Sign In</button>
 </form>

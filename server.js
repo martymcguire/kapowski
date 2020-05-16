@@ -58,18 +58,73 @@ app.use(function(req, res, next){
   next();
 });
 
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.render('index', response.locals.context)
-})
-
 // a middleware to kick people to the homepage if they are not logged in
 function requireLogin(request, response, next) {
   if(! request.session.user) { return response.redirect('/') }
   next();
 }
 
-app.get('/search', (request, response) => {
+// sometimes we need to read and write files
+const fs = require('fs');
+
+// a middleware to load, check, update our GFYCAT OAuth token
+function requireGfycatToken(request, response, next) {
+  // goal: set request.session.gfycat_token
+  // - load .data/.gfycat (JSON obj w/ 'token','expires')
+  // - if not present or expires < now, do request
+  let token_cache = null;
+  if(fs.existsSync('.data/.gfycat')) {
+    token_cache = JSON.parse(fs.readFileSync('.data/.gfycat'));
+    const now_secs = Math.floor(Date.now() / 1000);
+    if (now_secs > token_cache.expires) {
+      // expired 😢 (it's okay, we'll requests a new one)
+      token_cache = null;
+    } else {
+      // cached token still good! use it!
+      request.session.gfycat_token = token_cache.access_token;
+      next();
+    }
+  }
+  if (token_cache == null) {
+    console.log('Requesting new Gfycat API token')
+    fetch('https://api.gfycat.com/v1/oauth/token', {
+      method: 'post',
+      body: JSON.stringify({
+        grant_type: 'client_credentials',
+        client_id: process.env.GFYCAT_CLIENT_ID,
+        client_secret: process.env.GFYCAT_CLIENT_SECRET
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => { 
+      if(res.ok) {
+        return res.json();
+      } else {
+        // something went wrong. render a sad gfycat.
+      }
+    })
+    .then(json => {
+      const token_cache = {
+        access_token: json.access_token,
+        expires: (Math.floor(Date.now() / 1000) + json.expires_in)
+      };
+
+      console.log(token_cache);
+
+      fs.writeFile('.data/.gfycat', JSON.stringify(token_cache), (err) => { if(err) {console.log(err);}} );
+
+      request.session.gfycat_token = token_cache.access_token;
+      next();
+    });  
+  } // end if token_cache == null
+}
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", (request, response) => {
+  response.render('index', response.locals.context)
+})
+
+app.get('/search', requireGfycatToken, (request, response) => {
   var context = response.locals.context
   var query = request.query.q /* FIXME: sanitize */
   var inReplyTo = request.query['in-reply-to']
@@ -79,18 +134,19 @@ app.get('/search', (request, response) => {
   }
   if(query) {
     var qs = querystring.stringify({
-      api_key: process.env.GIPHY_API_KEY,
-      limit: 25,
-      offset: 0,
-      rating: 'G',
-      lang: 'en',
-      q: query
+      count: 25,
+      search_text: query
     })
-    fetch ('https://api.giphy.com/v1/gifs/search?' + qs)
+    fetch ('https://api.gfycat.com/v1/gfycats/search?' + qs, {
+      headers: {
+        'Authorization': 'Bearer ' + request.session.gfycat_token
+      }
+    })
       .then(res => res.json())
       .then(json => {
-        var results = json.data
-        // console.log(results)
+        //console.log(json);
+        //return response.send(JSON.stringify(json)); // DEBUGGING LOL
+        var results = json.gfycats
         context['q'] = request.query.q
         context['results'] = results
         return response.render('search', context )
@@ -101,19 +157,18 @@ app.get('/search', (request, response) => {
   }
 })
 
-app.get('/preview/:id', (request, response) => {
+app.get('/preview/:id', requireGfycatToken, (request, response) => {
   /* FIXME: sanitize id */
   var context = response.locals.context
   var inReplyTo = request.query['in-reply-to']
   if (inReplyTo) {
     context['inReplyTo'] = inReplyTo
   }
-  var qs = querystring.stringify( { api_key: process.env.GIPHY_API_KEY } )
-  fetch(`https://api.giphy.com/v1/gifs/${request.params.id}?` + qs)
+  fetch(`https://api.gfycat.com/v1/gfycats/${request.params.id}`)
     .then(res => res.json())
     .then(json => {
-      var results = json.data
-      // console.log(results)
+      //return response.send(JSON.stringify(json)); // DEBUGGING LOL
+      var results = json.gfyItem;
       context['gif'] = results
       return response.render('preview', context)
     })

@@ -34,6 +34,16 @@ a {
   justify-self: right;
 }
 
+.powered-by {
+  background: #000;
+  color: #fff;
+  font-size: 1.2rem;
+}
+.powered-by .glitch-bit {
+  height: 2em;
+  vertical-align: middle;
+}
+
 .results {
   display: flex;
   flex: 1 1 auto;
