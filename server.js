@@ -185,6 +185,9 @@ app.post('/post', requireLogin, (request, response) => {
   if (request.body.inReplyTo && request.body.inReplyTo.length != 0) {
     params['in-reply-to'] = request.body.inReplyTo
   }
+  if (request.body.altText && request.body.altText.length != 0) {
+    params['mp-photo-alt'] = request.body.altText
+  }
   const micropub = new Micropub({
     token: request.session.user.token,
     micropubEndpoint: request.session.user.micropubEndpoint

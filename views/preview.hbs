@@ -19,6 +19,7 @@
         </label>
 
         <input type="hidden" name="originalUrl" value="{{ content_urls.largeGif.url }}" />
+        <input type="text" name="altText" placeholder="Alt text for the GIF, increase the accessibility of the post" />
         {{#if ../inReplyTo }}<input type="hidden" name="inReplyTo" value="{{ ../inReplyTo }}" />{{/if}}
         <input id="post-gif" type="submit" value="Post this GIF" />
       </form>
