@@ -178,18 +178,18 @@ app.get('/preview/:id', requireGfycatToken, (request, response) => {
 
 /* Login needed here */
 app.post('/post', requireLogin, (request, response) => {
-  var props = { photo: [ request.body.originalUrl ] }
+  var params = {
+    h: 'entry',
+    photo: request.body.originalUrl
+  }
   if (request.body.inReplyTo) {
-    props['in-reply-to'] = [ request.body.inReplyTo ]
+    params['in-reply-to'] = request.body.inReplyTo
   }
   const micropub = new Micropub({
     token: request.session.user.token,
     micropubEndpoint: request.session.user.micropubEndpoint
   })
-  micropub.create({
-    type: ['h-entry'],
-    properties: props
-  })
+  micropub.create(params, 'form')
   .then((url) => response.redirect(url))
   .catch((err) => console.log(err))
 })
