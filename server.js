@@ -182,7 +182,7 @@ app.post('/post', requireLogin, (request, response) => {
     h: 'entry',
     photo: request.body.originalUrl
   }
-  if (request.body.inReplyTo) {
+  if (request.body.inReplyTo && request.body.inReplyTo.length != 0) {
     params['in-reply-to'] = request.body.inReplyTo
   }
   const micropub = new Micropub({
