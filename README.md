@@ -1,27 +1,10 @@
-Welcome to the Glitch BETA
-==========================
+# Kapowski (Old)
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+Kapowski is a [Micropub](https://indieweb.org/Micropub) client for posting reaction gifs to your personal website.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+This is the archive for the original version of Kapowski, written in Node.js and developed on [Glitch](https://glitch.com/).
 
-Find out more [about Glitch](https://glitch.com/about).
+Kapowski has moved!
 
-
-Your Project
-------------
-
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
-
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-
-Made by [Fog Creek](https://fogcreek.com/)
--------------------
-
-\ ゜o゜)ノ
+- New site: https://kapowski.bayside.pub/
+- Source: https://git.schmarty.net/schmarty/kapowski-php
