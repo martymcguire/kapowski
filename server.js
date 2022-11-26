@@ -49,6 +49,9 @@ const querystring = require('querystring')
 // let smarter people handle micropub posting
 const Micropub = require('micropub-helper')
 
+// sometimes we have to make our own HTTP reqs
+const axios = require('axios')
+
 // middleware to always set up a context to pass to templates
 app.use(function(req, res, next){
   res.locals.context = {};
@@ -87,18 +90,17 @@ function requireGfycatToken(request, response, next) {
   }
   if (token_cache == null) {
     console.log('Requesting new Gfycat API token')
-    fetch('https://api.gfycat.com/v1/oauth/token', {
-      method: 'post',
-      body: JSON.stringify({
+    axios.post('https://api.gfycat.com/v1/oauth/token', 
+      JSON.stringify({
         grant_type: 'client_credentials',
         client_id: process.env.GFYCAT_CLIENT_ID,
         client_secret: process.env.GFYCAT_CLIENT_SECRET
       }),
-      headers: { 'Content-Type': 'application/json' },
+      { headers: { 'Content-Type': 'application/json' },
     })
     .then(res => { 
-      if(res.ok) {
-        return res.json();
+      if(res.status === 200) {
+        return res.data;
       } else {
         // something went wrong. render a sad gfycat.
       }
@@ -137,13 +139,13 @@ app.get('/search', requireGfycatToken, (request, response) => {
       count: 25,
       search_text: query
     })
-    fetch ('https://api.gfycat.com/v1/gfycats/search?' + qs, {
+    axios.get ('https://api.gfycat.com/v1/gfycats/search?' + qs, {
       headers: {
         'Authorization': 'Bearer ' + request.session.gfycat_token
       }
     })
-      .then(res => res.json())
-      .then(json => {
+      .then(res => {
+        const json = res.data;
         //console.log(json);
         //return response.send(JSON.stringify(json)); // DEBUGGING LOL
         var results = json.gfycats
@@ -164,9 +166,9 @@ app.get('/preview/:id', requireGfycatToken, (request, response) => {
   if (inReplyTo) {
     context['inReplyTo'] = inReplyTo
   }
-  fetch(`https://api.gfycat.com/v1/gfycats/${request.params.id}`)
-    .then(res => res.json())
-    .then(json => {
+  axios.get(`https://api.gfycat.com/v1/gfycats/${request.params.id}`)
+    .then(res => {
+      const json = res.data;
       //return response.send(JSON.stringify(json)); // DEBUGGING LOL
       var results = json.gfyItem;
       context['gif'] = results
